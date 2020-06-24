@@ -4,7 +4,9 @@ import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Mission {
@@ -20,17 +22,18 @@ public class Mission {
     private LocalDateTime missionDateFrom;
     private LocalDateTime missionDateTo;
 
-    @OneToMany(mappedBy = "mission",fetch = FetchType.LAZY)
-    private List<Product> products = new ArrayList<>();
+    @OneToMany(mappedBy = "mission")
+    private Set<Product> products = new HashSet<>();
 
-    public Mission() {}
+    public Mission() {
+    }
 
     public Mission(String name, ImageryType imageryType) {
         this.name = name;
         this.imageryType = imageryType;
     }
 
-    public List<Product> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
 
@@ -78,6 +81,7 @@ public class Mission {
         product.setMission(this);
         this.products.add(product);
     }
+
     @Override
     public int hashCode() {
         return Objects.hashCode(name);
